@@ -31,9 +31,12 @@ gg_outlier_bin <- function(x,
                            binwidth = NULL) {
   vector <- x %>% select_(var_name) %>% as.vector() %>% unlist()
   outlier_range <-  1.5*IQR(vector)
-  cut_off_floor   =  quantile(vector,c(.25))[[1]] - outlier_range
-  cut_off_ceiling =   quantile(vector,c(.75))[[1]] + outlier_range
-  
+    cut_off_floor   <-  ifelse(!is.na(cut_off_floor),
+                             cut_off_floor,
+                             quantile(vector,c(.25))[[1]] - outlier_range) #if the user does not specify a cut off, a default one is introduced 
+  cut_off_ceiling   <-  ifelse(!is.na(cut_off_ceiling),
+                             cut_off_ceiling,
+                             quantile(vector,c(.75))[[1]] + outlier_range) #if the user does not specify a cut off, a default one is introduced   
   printing_min_max <- x %>% summarise_(sprintf("round(min(%s, na.rm = TRUE), 1)", var_name),
                                        sprintf("round(max(%s, na.rm = TRUE), 1)", var_name))
 
