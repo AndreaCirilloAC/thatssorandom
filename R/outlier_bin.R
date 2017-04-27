@@ -23,8 +23,8 @@
 
 gg_outlier_bin <- function(x,
                            var_name,
-                           cut_off_floor,
-                           cut_off_ceiling,
+                           cut_off_floor = NA,
+                           cut_off_ceiling = NA,
                            col = "black",
                            fill = "cornflowerblue",
                            fill_outlier_bins = "forestgreen",
