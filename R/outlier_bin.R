@@ -40,12 +40,8 @@ gg_outlier_bin <- function(x,
   printing_min_max <- x %>% summarise_(sprintf("round(min(%s, na.rm = TRUE), 1)", var_name),
                                        sprintf("round(max(%s, na.rm = TRUE), 1)", var_name))
 
-  ceiling_filter <- ifelse(!is.na(cut_off_ceiling),
-                           sprintf("%s < %f", var_name, cut_off_ceiling),
-                           "1 == 1")
-  floor_filter   <- ifelse(!is.na(cut_off_floor),
-                           sprintf("%s > %f", var_name, cut_off_floor),
-                           "1 == 1")
+  ceiling_filter <- sprintf("%s < %f", var_name, cut_off_ceiling)
+  floor_filter   <- sprintf("%s > %f", var_name, cut_off_floor)
 
   x_regular <- x %>% filter_(ceiling_filter, floor_filter) %>%
     select_(var_name)
