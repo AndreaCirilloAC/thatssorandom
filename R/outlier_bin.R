@@ -29,7 +29,11 @@ gg_outlier_bin <- function(x,
                            fill = "cornflowerblue",
                            fill_outlier_bins = "forestgreen",
                            binwidth = NULL) {
-
+  vector <- x %>% select_(var_name) %>% as.vector() %>% unlist()
+  outlier_range <-  1.5*IQR(vector)
+  cut_off_floor   =  quantile(vector,c(.25))[[1]] - outlier_range
+  cut_off_ceiling =   quantile(vector,c(.75))[[1]] + outlier_range
+  
   printing_min_max <- x %>% summarise_(sprintf("round(min(%s, na.rm = TRUE), 1)", var_name),
                                        sprintf("round(max(%s, na.rm = TRUE), 1)", var_name))
 
